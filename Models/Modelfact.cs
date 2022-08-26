@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TADHL.Models
+namespace PALACIOH.Models
 {
     public class ModelFact
 

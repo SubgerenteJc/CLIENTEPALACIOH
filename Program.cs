@@ -15,9 +15,9 @@ using System.Threading.Tasks;
 using System.Web.Services;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using TADHL.Models;
+using PALACIOH.Models;
 
-namespace TADHL
+namespace PALACIOH
 {
     public class Program
     {
@@ -65,10 +65,10 @@ namespace TADHL
         {
             string[] values;
             DataTable tbl = new DataTable();
-            //DirectoryInfo di24 = new DirectoryInfo(@"\\10.223.208.41\Users\Administrator\Documents\LIVERDED");
-            DirectoryInfo di24 = new DirectoryInfo(@"C:\Administración\Proyecto DHL\Ordenes");
+            //DirectoryInfo di24 = new DirectoryInfo(@"\\10.223.208.41\Users\Administrator\Documents\DHLORDENES");
+            DirectoryInfo di24 = new DirectoryInfo(@"C:\Administración\Proyecto PALACIO DE HIERRO\Ordenes");
 
-            FileInfo[] files24 = di24.GetFiles("*.tsv");
+            FileInfo[] files24 = di24.GetFiles("*.XLS");
 
 
             int cantidad24 = files24.Length;
@@ -76,12 +76,12 @@ namespace TADHL
             {
                 foreach (var item in files24)
                 {
-                    //string sourceFile = @"\\10.223.208.41\Users\Administrator\Documents\LIVERDED\" + item.Name;
-                    string sourceFile = @"C:\Administración\Proyecto DHL\Ordenes\" + item.Name;
-                    string[] strAllLines = File.ReadAllLines(sourceFile, Encoding.Default);
+                    //string sourceFile = @"\\10.223.208.41\Users\Administrator\Documents\DHLORDENES\" + item.Name;
+                    string sourceFile = @"C:\Administración\Proyecto PALACIO DE HIERRO\Ordenes\" + item.Name;
+                    string[] strAllLines = File.ReadAllLines(sourceFile, Encoding.UTF8);
                     File.WriteAllLines(sourceFile, strAllLines.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray());
                     string lna = item.Name.ToLower();
-                    string Ai_orden = lna.Replace(".tsv", "");
+                    string Ai_orden = lna.Replace(".xls", "");
                     string s2 = "-";
                     bool r = Ai_orden.Contains(s2);
 
@@ -136,7 +136,7 @@ namespace TADHL
                                 }
                                 facLabControler.DeleteMerca(segmentod);
                                 //string destinationFile = @"\\10.223.208.41\Users\Administrator\Documents\LIVERDEDUPLOADS\" + item.Name;
-                                string destinationFile = @"C:\Administración\Proyecto DHL\Procesadas\" + item.Name;
+                                string destinationFile = @"C:\Administración\Proyecto PALACIO DE HIERRO\Procesadas\" + item.Name;
                                 System.IO.File.Move(sourceFile, destinationFile);
 
 
@@ -249,50 +249,53 @@ namespace TADHL
                     else
                     {
                         string Av_weightunit = "KGM";
-                        string[] lineas1 = File.ReadAllLines(sourceFile, Encoding.Default);
-                        lineas1 = lineas1.Skip(4).ToArray();
+                        string[] lineas1 = File.ReadAllLines(sourceFile, Encoding.UTF8);
+                        lineas1 = lineas1.Skip(1).ToArray();
                         foreach (string line in lineas1)
                         {
                             string renglones = line;
                             char delimitador = '\t';
                             string[] valores = renglones.Split(delimitador);
-                            string col1 = valores[0].ToString();
-                            string col2 = valores[1].ToString();
-                            string col3 = valores[2].ToString();
-                            string col4 = valores[3].ToString();
-                            string col5 = valores[4].ToString();
-                            string col6 = valores[5].ToString();
-                            string col7 = valores[6].ToString();
-                            string col8 = valores[7].ToString();
-                            string Av_cmd_code = valores[8].ToString();
-                            string col10 = valores[9].ToString();
-                            string col11 = valores[10].ToString();
-                            string col12 = valores[11].ToString();
-                            string col13 = valores[12].ToString();
-                            string col14 = valores[13].ToString();
-                            string col15 = valores[14].ToString();
-                            string col16 = valores[15].ToString();
-                            string col17 = valores[16].ToString();
-                            string col18 = valores[17].ToString();
-                            string col19 = valores[18].ToString();
-                            string col20 = valores[19].ToString();
-                            string col21 = valores[20].ToString();
-                            string col22 = valores[21].ToString();
-                            string col23 = valores[22].ToString();
-                            string col24 = valores[23].ToString();
-                            string col25 = valores[24].ToString();
-                            string col26 = valores[25].ToString();
-                            string col27 = valores[26].ToString();
-                            string col28 = valores[27].ToString();
-                            string col29 = valores[28].ToString();
-                            string col30 = valores[29].ToString();
-                            string col31 = valores[30].ToString();
-                            string col32 = valores[31].ToString();
-                            string col33 = valores[32].ToString();
-                            string col34 = valores[33].ToString();
-                            string col35 = valores[34].ToString();
-                            string col36 = valores[35].ToString();
-                            string col37 = valores[36].ToString();
+                            //string col1 = valores[0].ToString();
+                            //string col2 = valores[1].ToString();
+                            //string col3 = valores[2].ToString();
+                            //string col4 = valores[3].ToString();
+                            //string col5 = valores[4].ToString();
+                            //string col6 = valores[5].ToString();
+                            //string col7 = valores[6].ToString();
+                            //string col8 = valores[7].ToString();
+                            //string Av_cmd_code2 = valores[8].ToString();
+                            //string col10 = valores[9].ToString();
+                            //string col11 = valores[10].ToString();
+                            //string col12 = valores[11].ToString();
+                            //string col13 = valores[12].ToString();
+                            //string col14 = valores[13].ToString();
+                            //string col15 = valores[14].ToString();
+                            //string col16 = valores[15].ToString();
+                            //string col17 = valores[16].ToString();
+                            //string col18 = valores[17].ToString();
+                            //string col19 = valores[18].ToString();
+                            //string col20 = valores[19].ToString();
+                            string clave = valores[15].ToString();
+                            string Av_cmd_code = clave.Replace("'", "");
+                            string descrip = valores[16].ToString();
+                            string Av_cmd_description = descrip.Replace("\"", "");
+                            
+                            string Af_count = Math.Floor(Convert.ToDecimal(valores[17])).ToString();
+                            string Av_countunit = valores[18].ToString();
+                            string Af_weight = valores[19].ToString();
+                            //string col26 = valores[25].ToString();
+                            //string col27 = valores[26].ToString();
+                            //string col28 = valores[27].ToString();
+                            //string col29 = valores[28].ToString();
+                            //string col30 = valores[29].ToString();
+                            //string col31 = valores[30].ToString();
+                            //string col32 = valores[31].ToString();
+                            //string col33 = valores[32].ToString();
+                            //string col34 = valores[33].ToString();
+                            //string col35 = valores[34].ToString();
+                            //string col36 = valores[35].ToString();
+                            //string col37 = valores[36].ToString();
 
                             if (Av_cmd_code != "")
                             {
@@ -319,105 +322,64 @@ namespace TADHL
                                         string esegmento = isegm["segmento"].ToString();
 
                                         //NUEVA EXTRACCIÓN
-                                        //string[] lineas1 = File.ReadAllLines(sourceFile);
+                                        //string[] lineas1 = File.ReadAllLines(sourceFile, Encoding.UTF8);
                                         //lineas1 = lineas1.Skip(4).ToArray();
                                         //foreach (string line in lineas1)
                                         //{
                                         //    string renglones = line;
                                         //    char delimitador = '\t';
                                         //    string[] valores = renglones.Split(delimitador);
-                                        //    string col1 = valores[0].ToString();
-                                        //    string col2 = valores[1].ToString();
-                                        //    string col3 = valores[2].ToString();
-                                        //    string col4 = valores[3].ToString();
-                                        //    string col5 = valores[4].ToString();
-                                        //    string col6 = valores[5].ToString();
-                                        //    string col7 = valores[6].ToString();
-                                        //    string col8 = valores[7].ToString();
-                                        //    string Av_cmd_code = valores[8].ToString();
-                                        //    string col10 = valores[9].ToString();
-                                        //    string col11 = valores[10].ToString();
-                                        //    string col12 = valores[11].ToString();
-                                        //    string col13 = valores[12].ToString();
-                                        //    string col14 = valores[13].ToString();
-                                        //    string col15 = valores[14].ToString();
-                                        //    string col16 = valores[15].ToString();
-                                        //    string col17 = valores[16].ToString();
-                                        //    string col18 = valores[17].ToString();
-                                        //    string col19 = valores[18].ToString();
-                                        //    string col20 = valores[19].ToString();
-                                        //    string col21 = valores[20].ToString();
-                                        //    string col22 = valores[21].ToString();
-                                        //    string col23 = valores[22].ToString();
-                                        //    string col24 = valores[23].ToString();
+                                        //    //string col1 = valores[0].ToString();
+                                        //    //string col2 = valores[1].ToString();
+                                        //    //string col3 = valores[2].ToString();
+                                        //    //string col4 = valores[3].ToString();
+                                        //    //string col5 = valores[4].ToString();
+                                        //    //string col6 = valores[5].ToString();
+                                        //    //string col7 = valores[6].ToString();
+                                        //    //string col8 = valores[7].ToString();
+                                        //    //string Av_cmd_code2 = valores[8].ToString();
+                                        //    //string col10 = valores[9].ToString();
+                                        //    //string col11 = valores[10].ToString();
+                                        //    //string col12 = valores[11].ToString();
+                                        //    //string col13 = valores[12].ToString();
+                                        //    //string col14 = valores[13].ToString();
+                                        //    //string col15 = valores[14].ToString();
+                                        //    //string col16 = valores[15].ToString();
+                                        //    //string col17 = valores[16].ToString();
+                                        //    //string col18 = valores[17].ToString();
+                                        //    //string col19 = valores[18].ToString();
+                                        //    //string col20 = valores[19].ToString();
+                                        //    string Af_weight = valores[20].ToString();
+                                        //    string Af_count = valores[21].ToString();
+                                        //    string clave = valores[22].ToString();
+                                        //    string Av_cmd_code = clave.Replace("'", "");
+                                        //    string descrip = valores[23].ToString();
+                                        //    string Av_cmd_description = descrip.Replace("\"", "");
+                                        //    string Av_countunit = valores[24].ToString();
+                                        //    //string col26 = valores[25].ToString();
+                                        //    //string col27 = valores[26].ToString();
+                                        //    //string col28 = valores[27].ToString();
+                                        //    //string col29 = valores[28].ToString();
+                                        //    //string col30 = valores[29].ToString();
+                                        //    //string col31 = valores[30].ToString();
+                                        //    //string col32 = valores[31].ToString();
+                                        //    //string col33 = valores[32].ToString();
+                                        //    //string col34 = valores[33].ToString();
+                                        //    //string col35 = valores[34].ToString();
+                                        //    //string col36 = valores[35].ToString();
+                                        //    //string col37 = valores[36].ToString();
+
                                         //    if (Av_cmd_code != "")
                                         //    {
 
-                                        //        //facLabControler.GetMerc(Ai_orden, Av_cmd_code, Av_cmd_description, Af_weight, Av_weightunit, Af_count, Av_countunit);
+                                        //        facLabControler.GetMerc(Ai_orden, Av_cmd_code, Av_cmd_description, Af_weight, Av_weightunit, Af_count, Av_countunit);
 
                                         //    }
 
                                         //}
                                         //FIN EXTRACCIÓN
-
-                                        //int counter = 7;
-                                        //foreach (string line in File.ReadLines(sourceFile, Encoding.Default))
-                                        //{
-                                        //    if (counter > 7)
-                                        //    {
-                                        //        values = line.Split(',');
-                                        //        string col1 = values[0];
-                                        //        string col2 = values[1];
-                                        //        string col3 = values[2];
-                                        //        string col4 = values[3];
-                                        //        string col5 = values[4];
-                                        //        string col6 = values[5];
-                                        //        string Av_cmd_code = values[6];
-                                        //        string descrip = values[7];
-                                        //        string Av_cmd_description = descrip.Replace("\"", "");
-                                        //        //string Av_cmd_description = values[7];
-                                        //        string Af_count = values[8];
-                                        //        string Av_countunit = values[9];
-                                        //        string col11 = values[10];
-                                        //        string col12 = values[11];
-                                        //        string col13 = values[12];
-                                        //        string col14 = values[13];
-                                        //        string col15 = values[14];
-                                        //        string Af_weight = values[15];
-                                        //        string col16 = values[16];
-                                        //        string col17 = values[17];
-                                        //        string col18 = values[18];
-                                        //        string col19 = values[19];
-                                        //        string col20 = values[20];
-                                        //        string col21 = values[21];
-                                        //        string col22 = values[22];
-                                        //        string col23 = values[23];
-                                        //        string col24 = values[24];
-                                        //        string col25 = values[25];
-                                        //        string col26 = values[26];
-                                        //        string col27 = values[27];
-                                        //        string col28 = values[28];
-                                        //        string col29 = values[29];
-                                        //        string col30 = values[30];
-                                        //        string col31 = values[31];
-                                        //        string col32 = values[32];
-                                        //        string col33 = values[33];
-                                        //        string col34 = values[34];
-                                        //        string col35 = values[35];
-                                        //        string col36 = values[36];
-
-                                        //        if (Av_cmd_code != "")
-                                        //        {
-
-                                        //            //facLabControler.GetMerc(Ai_orden, Av_cmd_code, Av_cmd_description, Af_weight, Av_weightunit, Af_count, Av_countunit);
-
-                                        //        }
-                                        //    }
-                                        //    counter++;
-                                        //}
-
-                                        //facLabControler.DeleteMerc(Ai_orden);
-                                        //string destinationFile = @"\\10.223.208.41\Users\Administrator\Documents\LIVERDEDUPLOADS\" + item.Name;
+                                        facLabControler.DeleteMerc(Ai_orden);
+                                        //string destinationFile = @"\\10.223.208.41\Users\Administrator\Documents\DHLPROCESADAS\" + item.Name;
                                         string destinationFile = @"C:\Administración\Proyecto DHL\Procesadas\" + item.Name;
                                         System.IO.File.Move(sourceFile, destinationFile);
                                         //facLabControler.DeleteMerc(Ai_orden);

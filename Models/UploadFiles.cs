@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using tss = Tamir.SharpSsh;
 
-namespace TADHL.Models
+namespace PALACIOH.Models
 {
     public class UploadFile
     {

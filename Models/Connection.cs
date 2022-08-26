@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Configuration;
 
-namespace TADHL.Models
+namespace PALACIOH.Models
 {
     public sealed class Connection
     {
