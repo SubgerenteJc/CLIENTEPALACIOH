@@ -25,6 +25,12 @@ namespace PALACIOH.Models
         public string xmlDownload { get; set; }
         public string monto { get; set; }
         public string tipoMoneda { get; set; }
+        public string consecutivo { get; set; }
+        public string billto { get; set; }
+        public string segmento { get; set; }
+        public string estatus { get; set; }
+        public string economico { get; set; }
+        public string flota { get; set; }
 
         public string ord_hdrnumber { get; set; }
         public string tcfix { get; set; }
@@ -171,7 +177,7 @@ namespace PALACIOH.Models
             using (SqlConnection connection = new SqlConnection(cadena2))
             {
 
-                using (SqlCommand selectCommand = new SqlCommand("sp_NotificacionesLiverded", connection))
+                using (SqlCommand selectCommand = new SqlCommand("sp_NotificacionesPalacioH", connection))
                 {
 
                     selectCommand.CommandType = CommandType.StoredProcedure;
@@ -202,6 +208,31 @@ namespace PALACIOH.Models
             using (SqlConnection connection = new SqlConnection(this._ConnectionString))
             {
                 using (SqlCommand selectCommand = new SqlCommand("select folio as Folio,fhemision as Fecha, nombrecliente as Cliente, idreceptor from VISTA_fe_Header", connection))
+                {
+                    selectCommand.CommandType = CommandType.Text;
+                    selectCommand.CommandTimeout = 100000;
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(selectCommand))
+                    {
+                        try
+                        {
+                            selectCommand.Connection.Open();
+                            sqlDataAdapter.Fill(dataTable);
+                        }
+                        catch (SqlException ex)
+                        {
+                            string message = ex.Message;
+                        }
+                    }
+                }
+            }
+            return dataTable;
+        }
+        public DataTable xml()
+        {
+            DataTable dataTable = new DataTable();
+            using (SqlConnection connection = new SqlConnection(this._ConnectionString))
+            {
+                using (SqlCommand selectCommand = new SqlCommand("select * from(select trl_number as Economico, (select replace(replace(name,'&',' AND '),'/','') from labelfile where labeldefinition = 'fleet' and abbr=  trl_fleet) as flota from trailerprofile where trl_status <> 'OUT') as q", connection))
                 {
                     selectCommand.CommandType = CommandType.Text;
                     selectCommand.CommandTimeout = 100000;
@@ -514,6 +545,36 @@ namespace PALACIOH.Models
             {
                 connection.Open();
                 using (SqlCommand selectCommand = new SqlCommand("sp_existe_segmentos", connection))
+                {
+
+                    selectCommand.CommandType = CommandType.StoredProcedure;
+                    selectCommand.CommandTimeout = 100000;
+                    selectCommand.Parameters.AddWithValue("@seg", (object)seg);
+                    selectCommand.ExecuteNonQuery();
+                    using (SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(selectCommand))
+                    {
+                        try
+                        {
+                            //selectCommand.Connection.Open();
+                            sqlDataAdapter.Fill(dataTable);
+                        }
+                        catch (SqlException ex)
+                        {
+                            connection.Close();
+                            string message = ex.Message;
+                        }
+                    }
+                }
+            }
+            return dataTable;
+        }
+        public DataTable ExisteStatus(string seg)
+        {
+            DataTable dataTable = new DataTable();
+            using (SqlConnection connection = new SqlConnection(this._ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand selectCommand = new SqlCommand("sp_existe_status", connection))
                 {
 
                     selectCommand.CommandType = CommandType.StoredProcedure;

@@ -15,6 +15,10 @@ namespace PALACIOH.Models
         {
             return this.modelFact.getFacturas();
         }
+        public DataTable xml()
+        {
+            return this.modelFact.xml();
+        }
         public void GetMerc(string Ai_orden, string Av_cmd_code, string Av_cmd_description, string Af_weight, string Av_weightunit, string Af_count, string Av_countunit)
         {
             this.modelFact.GetMerc(Ai_orden, Av_cmd_code, Av_cmd_description, Af_weight, Av_weightunit, Af_count, Av_countunit);
@@ -34,6 +38,10 @@ namespace PALACIOH.Models
         public DataTable ExisteSegmentos(string seg)
         {
             return this.modelFact.ExisteSegmentos(seg);
+        }
+        public DataTable ExisteStatus(string seg)
+        {
+            return this.modelFact.ExisteStatus(seg);
         }
         public DataTable GetEstatus(string orden)
         {

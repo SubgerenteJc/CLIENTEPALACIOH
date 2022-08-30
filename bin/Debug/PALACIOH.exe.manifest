@@ -54,14 +54,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PALACIOH.exe" size="74216">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="PALACIOH.exe" size="76776">
       <assemblyIdentity name="PALACIOH" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>y23I/0pYDa0NT7qwPBSkCyUgqFntX//MoCz0fEAWEds=</dsig:DigestValue>
+        <dsig:DigestValue>2wcCI9HHoP6R1cxsdFGhsVbozOrVhSdM0ZQzoks4GvI=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -89,13 +89,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="PALACIOH.exe.config" size="2385">
+  <file name="PALACIOH.exe.config" size="2435">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>bj+pIAXph/KUTBhpErJHJ33nfwhT1yhEBjB8+N5IUSk=</dsig:DigestValue>
+      <dsig:DigestValue>Gv3nn+F1ATesACBug/elxduu1Sn0ZugN4LmcKU2NhO8=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

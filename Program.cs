@@ -16,6 +16,7 @@ using System.Web.Services;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using PALACIOH.Models;
+using System.Xml.Linq;
 
 namespace PALACIOH
 {
@@ -41,8 +42,9 @@ namespace PALACIOH
         static string CodSAT;
         static string IdProducto;
         static string Producto;
-        static string Origen;
+        static string Origen = "1";
         static string Destino;
+        
 
         public static List<string> results = new List<string>();
         static HtmlTable table = new HtmlTable();
@@ -51,7 +53,28 @@ namespace PALACIOH
         static string[] words;
         public static void Main(string[] args)
         {
+            //string rvseg = "1306509";
+            //DataTable vstatus = facLabControler.ExisteStatus(rvseg);
+            //foreach (DataRow lstu in vstatus.Rows)
+            //{
+            //    string estatus = lstu["estatus"].ToString();
+            //    int vsegm = Int32.Parse(estatus);
 
+            //    if (vsegm != 2)
+            //    {
+            //        string tipomensaje = "9";
+            //        DataTable updateLegs = facLabControler.UpdateLeg(rvseg, tipomensaje);
+            //        string titulo = "Error en el segmento: ";
+            //        string mensaje = "Error la carta porte ya fue timbrada.";
+            //        facLabControler.enviarNotificacion(rvseg, titulo, mensaje);
+            //    }
+            //    else
+            //    {
+            //        string titulo = "Error en el segmento: ";
+            //        string mensaje = "Error la carta porte ya fue timbrada.";
+            //        facLabControler.enviarNotificacion(rvseg, titulo, mensaje);
+            //    }
+            //}
 
             Program muobject = new Program();
 
@@ -63,6 +86,35 @@ namespace PALACIOH
 
         public void Extraer()
         {
+            //CODIGO PARA GENERAR XML DESDE UNA CONSULTA SQL SERVER
+
+            //DataTable gxml = facLabControler.xml();
+            //XDocument document = new XDocument(new XDeclaration("1.0", "utf-8", null));
+            //XElement nodoRaiz = new XElement("Tractors");
+            //document.Add(nodoRaiz);
+
+            //foreach (DataRow iseg in gxml.Rows)
+            //{
+               
+            //    string economico = iseg["Economico"].ToString();
+            //    string flota = iseg["flota"].ToString();
+
+            //    XElement tractor = new XElement("Tractor");
+            //    tractor.Add(new XElement("Economico", economico));
+            //    tractor.Add(new XElement("flota", flota));
+            //    nodoRaiz.Add(tractor);
+
+
+            //}
+            
+
+            //document.Save(@"C:\Archivos\Xml\test.xml");
+
+
+
+
+
+
             string[] values;
             DataTable tbl = new DataTable();
             //DirectoryInfo di24 = new DirectoryInfo(@"\\10.223.208.41\Users\Administrator\Documents\DHLORDENES");
@@ -76,12 +128,14 @@ namespace PALACIOH
             {
                 foreach (var item in files24)
                 {
+                    
                     //string sourceFile = @"\\10.223.208.41\Users\Administrator\Documents\DHLORDENES\" + item.Name;
                     string sourceFile = @"C:\Administración\Proyecto PALACIO DE HIERRO\Ordenes\" + item.Name;
                     string[] strAllLines = File.ReadAllLines(sourceFile, Encoding.UTF8);
                     File.WriteAllLines(sourceFile, strAllLines.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray());
                     string lna = item.Name.ToLower();
                     string Ai_orden = lna.Replace(".xls", "");
+                    
                     string s2 = "-";
                     bool r = Ai_orden.Contains(s2);
 
@@ -249,62 +303,7 @@ namespace PALACIOH
                     else
                     {
                         string Av_weightunit = "KGM";
-                        string[] lineas1 = File.ReadAllLines(sourceFile, Encoding.UTF8);
-                        lineas1 = lineas1.Skip(1).ToArray();
-                        foreach (string line in lineas1)
-                        {
-                            string renglones = line;
-                            char delimitador = '\t';
-                            string[] valores = renglones.Split(delimitador);
-                            //string col1 = valores[0].ToString();
-                            //string col2 = valores[1].ToString();
-                            //string col3 = valores[2].ToString();
-                            //string col4 = valores[3].ToString();
-                            //string col5 = valores[4].ToString();
-                            //string col6 = valores[5].ToString();
-                            //string col7 = valores[6].ToString();
-                            //string col8 = valores[7].ToString();
-                            //string Av_cmd_code2 = valores[8].ToString();
-                            //string col10 = valores[9].ToString();
-                            //string col11 = valores[10].ToString();
-                            //string col12 = valores[11].ToString();
-                            //string col13 = valores[12].ToString();
-                            //string col14 = valores[13].ToString();
-                            //string col15 = valores[14].ToString();
-                            //string col16 = valores[15].ToString();
-                            //string col17 = valores[16].ToString();
-                            //string col18 = valores[17].ToString();
-                            //string col19 = valores[18].ToString();
-                            //string col20 = valores[19].ToString();
-                            string clave = valores[15].ToString();
-                            string Av_cmd_code = clave.Replace("'", "");
-                            string descrip = valores[16].ToString();
-                            string Av_cmd_description = descrip.Replace("\"", "");
-                            
-                            string Af_count = Math.Floor(Convert.ToDecimal(valores[17])).ToString();
-                            string Av_countunit = valores[18].ToString();
-                            string Af_weight = valores[19].ToString();
-                            //string col26 = valores[25].ToString();
-                            //string col27 = valores[26].ToString();
-                            //string col28 = valores[27].ToString();
-                            //string col29 = valores[28].ToString();
-                            //string col30 = valores[29].ToString();
-                            //string col31 = valores[30].ToString();
-                            //string col32 = valores[31].ToString();
-                            //string col33 = valores[32].ToString();
-                            //string col34 = valores[33].ToString();
-                            //string col35 = valores[34].ToString();
-                            //string col36 = valores[35].ToString();
-                            //string col37 = valores[36].ToString();
-
-                            if (Av_cmd_code != "")
-                            {
-
-                                //facLabControler.GetMerc(Ai_orden, Av_cmd_code, Av_cmd_description, Af_weight, Av_weightunit, Af_count, Av_countunit);
-
-                            }
-
-                        }
+                        
 
                         DataTable rtds = facLabControler.ObtSegmento(Ai_orden);
                         if (rtds.Rows.Count > 0)
@@ -320,67 +319,38 @@ namespace PALACIOH
                                     foreach (DataRow isegm in otds.Rows)
                                     {
                                         string esegmento = isegm["segmento"].ToString();
+                                        
 
                                         //NUEVA EXTRACCIÓN
-                                        //string[] lineas1 = File.ReadAllLines(sourceFile, Encoding.UTF8);
-                                        //lineas1 = lineas1.Skip(4).ToArray();
-                                        //foreach (string line in lineas1)
-                                        //{
-                                        //    string renglones = line;
-                                        //    char delimitador = '\t';
-                                        //    string[] valores = renglones.Split(delimitador);
-                                        //    //string col1 = valores[0].ToString();
-                                        //    //string col2 = valores[1].ToString();
-                                        //    //string col3 = valores[2].ToString();
-                                        //    //string col4 = valores[3].ToString();
-                                        //    //string col5 = valores[4].ToString();
-                                        //    //string col6 = valores[5].ToString();
-                                        //    //string col7 = valores[6].ToString();
-                                        //    //string col8 = valores[7].ToString();
-                                        //    //string Av_cmd_code2 = valores[8].ToString();
-                                        //    //string col10 = valores[9].ToString();
-                                        //    //string col11 = valores[10].ToString();
-                                        //    //string col12 = valores[11].ToString();
-                                        //    //string col13 = valores[12].ToString();
-                                        //    //string col14 = valores[13].ToString();
-                                        //    //string col15 = valores[14].ToString();
-                                        //    //string col16 = valores[15].ToString();
-                                        //    //string col17 = valores[16].ToString();
-                                        //    //string col18 = valores[17].ToString();
-                                        //    //string col19 = valores[18].ToString();
-                                        //    //string col20 = valores[19].ToString();
-                                        //    string Af_weight = valores[20].ToString();
-                                        //    string Af_count = valores[21].ToString();
-                                        //    string clave = valores[22].ToString();
-                                        //    string Av_cmd_code = clave.Replace("'", "");
-                                        //    string descrip = valores[23].ToString();
-                                        //    string Av_cmd_description = descrip.Replace("\"", "");
-                                        //    string Av_countunit = valores[24].ToString();
-                                        //    //string col26 = valores[25].ToString();
-                                        //    //string col27 = valores[26].ToString();
-                                        //    //string col28 = valores[27].ToString();
-                                        //    //string col29 = valores[28].ToString();
-                                        //    //string col30 = valores[29].ToString();
-                                        //    //string col31 = valores[30].ToString();
-                                        //    //string col32 = valores[31].ToString();
-                                        //    //string col33 = valores[32].ToString();
-                                        //    //string col34 = valores[33].ToString();
-                                        //    //string col35 = valores[34].ToString();
-                                        //    //string col36 = valores[35].ToString();
-                                        //    //string col37 = valores[36].ToString();
+                                        string[] lineas1 = File.ReadAllLines(sourceFile, Encoding.UTF8);
+                                        lineas1 = lineas1.Skip(1).ToArray();
+                                        foreach (string line in lineas1)
+                                        {
+                                            string renglones = line;
+                                            char delimitador = '\t';
+                                            string[] valores = renglones.Split(delimitador);
+                                           
+                                            string clave = valores[15].ToString();
+                                            string Av_cmd_code = clave.Replace("'", "");
+                                            string descrip = valores[16].ToString();
+                                            string Av_cmd_description = descrip.Replace("\"", "");
+                                            string Af_count = valores[17].ToString();
+                                            string Av_countunit = valores[18].ToString();
+                                            string Af_weight = valores[19].ToString();
+                                            
+                                            
+                                            if (Av_cmd_code != "")
+                                            {
 
-                                        //    if (Av_cmd_code != "")
-                                        //    {
+                                                facLabControler.GetMerc(Ai_orden, Av_cmd_code, Av_cmd_description, Af_weight, Av_weightunit, Af_count, Av_countunit);
 
-                                        //        facLabControler.GetMerc(Ai_orden, Av_cmd_code, Av_cmd_description, Af_weight, Av_weightunit, Af_count, Av_countunit);
+                                            }
 
-                                        //    }
-
-                                        //}
+                                        }
                                         //FIN EXTRACCIÓN
                                         facLabControler.DeleteMerc(Ai_orden);
                                         //string destinationFile = @"\\10.223.208.41\Users\Administrator\Documents\DHLPROCESADAS\" + item.Name;
-                                        string destinationFile = @"C:\Administración\Proyecto DHL\Procesadas\" + item.Name;
+                                        string destinationFile = @"C:\Administración\Proyecto PALACIO DE HIERRO\Procesadas\" + item.Name;
                                         System.IO.File.Move(sourceFile, destinationFile);
                                         //facLabControler.DeleteMerc(Ai_orden);
 
@@ -402,11 +372,27 @@ namespace PALACIOH
                                                 string serie = rlist.serie;
                                                 if (serie == "TDRXP" || serie == "TDRZP")
                                                 {
-                                                    string tipomensaje = "9";
-                                                    DataTable updateLegs = facLabControler.UpdateLeg(esegmento, tipomensaje);
-                                                    string titulo = "Error en el segmento: ";
-                                                    string mensaje = "Error la carta porte ya fue timbrada.";
-                                                    facLabControler.enviarNotificacion(esegmento, titulo, mensaje);
+                                                    DataTable vstatus = facLabControler.ExisteStatus(esegmento);
+                                                    foreach (DataRow lstu in vstatus.Rows)
+                                                    {
+                                                        string estatus = lstu["estatus"].ToString();
+                                                        int vsegm = Int32.Parse(estatus);
+
+                                                        if (vsegm != 2)
+                                                        {
+                                                            string tipomensaje = "9";
+                                                            DataTable updateLegs = facLabControler.UpdateLeg(esegmento, tipomensaje);
+                                                            string titulo = "Error en el segmento: ";
+                                                            string mensaje = "Error la carta porte ya fue timbrada.";
+                                                            facLabControler.enviarNotificacion(esegmento, titulo, mensaje);
+                                                        }else
+                                                        {
+                                                            string titulo = "Error en el segmento: ";
+                                                            string mensaje = "Error la carta porte ya fue timbrada.";
+                                                            facLabControler.enviarNotificacion(esegmento, titulo, mensaje);
+                                                        }
+                                                    }
+                                                    
                                                 }
                                                 else
                                                 {
@@ -416,17 +402,27 @@ namespace PALACIOH
                                                     {
                                                         //string foliorepetido = item2["segmento"].ToString();
                                                         //Console.WriteLine("El Folio ya esta timbrado" + foliorepetido);
-
-                                                        string tipom = "9";
-                                                        DataTable updateLeg = facLabControler.UpdateLeg(esegmento, tipom);
-                                                        foreach (DataRow item3 in updateLeg.Rows)
+                                                        DataTable vstatus = facLabControler.ExisteStatus(esegmento);
+                                                        foreach (DataRow lstu in vstatus.Rows)
                                                         {
-                                                            string rupdate = item3["segmento"].ToString();
-                                                            string lupdate = item3["estatus"].ToString();
+                                                            string estatus = lstu["estatus"].ToString();
+                                                            int vsegm = Int32.Parse(estatus);
+
+                                                            if (vsegm != 2)
+                                                            {
+                                                                string tipom = "9";
+                                                                DataTable updateLeg = facLabControler.UpdateLeg(esegmento, tipom);
+                                                                string titulo = "Error en el segmento: ";
+                                                                string mensaje = "Error la carta porte ya fue timbrada.";
+                                                                facLabControler.enviarNotificacion(esegmento, titulo, mensaje);
+                                                            }
+                                                            else
+                                                            {
+                                                                string titulo = "Error en el segmento: ";
+                                                                string mensaje = "Error la carta porte ya fue timbrada.";
+                                                                facLabControler.enviarNotificacion(esegmento, titulo, mensaje);
+                                                            }
                                                         }
-                                                        string titulo = "Error en el segmento: ";
-                                                        string mensaje = "Error la carta porte ya fue timbrada.";
-                                                        facLabControler.enviarNotificacion(esegmento, titulo, mensaje);
 
                                                     }
                                                     else  // PASO 5 - SI NO EXISTE CONTINUA CON EL PROCESO DE TIMBRADO
@@ -461,16 +457,27 @@ namespace PALACIOH
                                                 //string foliorepetido = item2["segmento"].ToString();
                                                 //Console.WriteLine("El Folio ya esta timbrado" + esegmento);
 
-                                                string tipom = "9";
-                                                DataTable updateLeg = facLabControler.UpdateLeg(esegmento, tipom);
-                                                foreach (DataRow item3 in updateLeg.Rows)
+                                                DataTable vstatus = facLabControler.ExisteStatus(esegmento);
+                                                foreach (DataRow lstu in vstatus.Rows)
                                                 {
-                                                    string rupdate = item3["segmento"].ToString();
-                                                    string lupdate = item3["estatus"].ToString();
+                                                    string estatus = lstu["estatus"].ToString();
+                                                    int vsegm = Int32.Parse(estatus);
+
+                                                    if (vsegm != 2)
+                                                    {
+                                                        string tipom = "9";
+                                                        DataTable updateLeg = facLabControler.UpdateLeg(esegmento, tipom);
+                                                        string titulo = "Error en el segmento: ";
+                                                        string mensaje = "Error la carta porte ya fue timbrada.";
+                                                        facLabControler.enviarNotificacion(esegmento, titulo, mensaje);
+                                                    }
+                                                    else
+                                                    {
+                                                        string titulo = "Error en el segmento: ";
+                                                        string mensaje = "Error la carta porte ya fue timbrada.";
+                                                        facLabControler.enviarNotificacion(esegmento, titulo, mensaje);
+                                                    }
                                                 }
-                                                string titulo = "Error en el segmento: ";
-                                                string mensaje = "Error la carta porte ya fue timbrada.";
-                                                facLabControler.enviarNotificacion(esegmento, titulo, mensaje);
                                             }
                                             else  // PASO 5 - SI NO EXISTE CONTINUA CON EL PROCESO DE TIMBRADO
                                             {
@@ -525,6 +532,8 @@ namespace PALACIOH
                             compCarta = sql.recuperaValor("exec sp_compCartaPorte " + leg);
                             if (compCarta.Length > 0)
                             {
+                                
+                                
                                 tiposCfds();
                                 words = Regex.Replace(compCarta, @"\r\n?|\n", "").Split('|');
                                 iniciaDatos();
